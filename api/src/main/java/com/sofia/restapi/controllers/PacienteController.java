@@ -1,22 +1,31 @@
 package com.sofia.restapi.controllers;
 
+import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.sofia.restapi.repository.PacienteRepository;
 import com.sofia.restapi.repository.ResponsavelRepository;
 import com.sofia.restapi.models.Paciente;
 import com.sofia.restapi.models.Responsavel;
+import com.sofia.restapi.exceptions.ResourceNotFoundException;
 
 @RestController
 public class PacienteController {
@@ -56,6 +65,25 @@ public class PacienteController {
     public Paciente edit(@RequestBody Paciente p){
     	return action.save(p);
     }
+
+    @PatchMapping("/pacientes/{id}")
+    public ResponseEntity<Paciente> updatePaciente(@PathVariable(value = "id") Long pacienteId, @Valid @RequestBody Paciente pacienteDetails) {
+        Paciente paciente = action.findById(pacienteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente", "id", pacienteId));
+
+        BeanUtils.copyProperties(pacienteDetails, paciente, getNullPropertyNames(pacienteDetails));
+        Paciente updatedPaciente = action.save(paciente);
+        return ResponseEntity.ok(updatedPaciente);
+    }
+
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
+    }
+
 
     @DeleteMapping("/pacientes/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id){

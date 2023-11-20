@@ -19,6 +19,13 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+			<version>3.1.5</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>com.queue-it.connector</groupId>
 			<artifactId>jakarta</artifactId>
 			<version>4.0.13</version>
