@@ -49,7 +49,7 @@ A API possui os seguintes endpoints:
 * `GET /pacientes`: Retorna uma lista de todos os pacientes.
 * `POST /pacientes`: Insere um novo paciente.
 * `GET /pacientes/{id}`: Retorna um paciente específico pelo ID.
-* `PUT /pacientes`: Atualiza um paciente.
+* `PATCH /pacientes/{id}`: Atualiza um paciente.
 * `DELETE /pacientes/{id}`: Remove um paciente pelo ID.
 
 <br>
