@@ -71,10 +71,25 @@ public class PacienteController {
         Paciente paciente = action.findById(pacienteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente", "id", pacienteId));
 
+        // Recupera o Responsavel existente do banco de dados
+        Responsavel responsavel = responsavelRepository.findById(paciente.getResponsavel().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Responsavel", "id", paciente.getResponsavel().getId()));
+
+        // Atualiza os campos do Responsavel
+        BeanUtils.copyProperties(pacienteDetails.getResponsavel(), responsavel, getNullPropertyNames(pacienteDetails.getResponsavel()));
+
+        // Salva o Responsavel atualizado no banco de dados
+        responsavelRepository.save(responsavel);
+
+        // Atualiza os campos do Paciente
         BeanUtils.copyProperties(pacienteDetails, paciente, getNullPropertyNames(pacienteDetails));
+
+        // Salva o Paciente atualizado no banco de dados
         Paciente updatedPaciente = action.save(paciente);
+
         return ResponseEntity.ok(updatedPaciente);
     }
+
 
     private String[] getNullPropertyNames(Object source) {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
@@ -88,14 +103,21 @@ public class PacienteController {
     @DeleteMapping("/pacientes/{id}")
     public ResponseEntity<Void> remove(@PathVariable Long id){
         ResponseEntity<Paciente> responseEntity = getPacienteById(id);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+        if(responseEntity.getStatusCode() == HttpStatus.OK) {
             Paciente p = responseEntity.getBody();
-            action.delete(p);
-            return ResponseEntity.noContent().build();
+            if (p != null) {
+                Responsavel r = p.getResponsavel();
+                action.delete(p);
+                responsavelRepository.delete(r);
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.notFound().build(); // Paciente não encontrado
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @GetMapping("/pacientes/count")
     public Long countPacientes(){

@@ -39,10 +39,10 @@ public class Responsavel {
     public void setParentesco(Parentesco parentesco) {
         this.parentesco = parentesco.getDescricao();
     }
-    public Parentesco getParentesco() {
+    public String getParentesco() {
         for (Parentesco p : Parentesco.values()) {
-            if (p.getDescricao().equals(this.parentesco)) {
-                return p;
+            if(p.getDescricao().equals(this.parentesco)) {
+                return p.getDescricao();
             }
         }
         return null; // ou lance uma exceção
