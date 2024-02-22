@@ -46,11 +46,13 @@ git clone https://github.com/aasjunior/com.sofia.restapi.git
 
 A API possui os seguintes endpoints:
 
-* `GET /pacientes`: Retorna uma lista de todos os pacientes.
-* `POST /pacientes`: Insere um novo paciente.
-* `GET /pacientes/{id}`: Retorna um paciente específico pelo ID.
-* `PATCH /pacientes/{id}`: Atualiza um paciente.
-* `DELETE /pacientes/{id}`: Remove um paciente pelo ID.
+| Type          | Path            | Obs                                       |
+| ------------- |-----------------|:-----------------------------------------:|
+| GET           | /pacientes      | Retorna uma lista de todos os pacientes.  |
+| POST          | /pacientes      | Insere um novo paciente.                  |
+| GET           | /pacientes/{id} | Retorna um paciente específico pelo ID.   |
+| PATCH         | /pacientes/{id} | Atualiza um paciente pelo ID.             |
+| DELETE        | /pacientes/{id} | Remove um paciente pelo ID.               |
 
 
 ## Tecnologias 💜
