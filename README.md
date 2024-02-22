@@ -46,7 +46,7 @@ git clone https://github.com/aasjunior/com.sofia.restapi.git
 
 A API possui os seguintes endpoints:
 
-| Type          | Path            | Obs                                       |
+| Type          | Path            | Obs.                                      |
 | ------------- |-----------------|:-----------------------------------------:|
 | GET           | /pacientes      | Retorna uma lista de todos os pacientes.  |
 | POST          | /pacientes      | Insere um novo paciente.                  |
