@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: com.sofia.backend
+
+  data:
+    mongodb:
+      uri: mongodb://localhost/test
