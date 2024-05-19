@@ -1,5 +1,6 @@
 package com.sofia.backend.domain.controller;
 
+import com.sofia.backend.config.exceptions.guardians.GuardianNotFoundException;
 import com.sofia.backend.domain.model.guardian.Guardian;
 import com.sofia.backend.domain.service.GuardianService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,15 @@ public class GuardianController {
     @PostMapping
     public ResponseEntity<Guardian> createGuardian(@RequestBody Guardian guardian){
         return guardianService.createGuardian(guardian);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteGuardian(@PathVariable String id) {
+        try{
+            guardianService.deleteGuardian(id);
+            return ResponseEntity.noContent().build();
+        }catch(GuardianNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }

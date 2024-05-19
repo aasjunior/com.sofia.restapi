@@ -1,5 +1,6 @@
 package com.sofia.backend.domain.controller;
 
+import com.sofia.backend.config.exceptions.patient.PatientNotFoundException;
 import com.sofia.backend.domain.model.patient.Patient;
 import com.sofia.backend.domain.model.patient.PatientRequest;
 import com.sofia.backend.domain.model.patientguardian.PatientGuardianRequest;
@@ -44,5 +45,15 @@ public class PatientController {
     @PostMapping("/patient-with-guardian")
     public ResponseEntity<Patient> createPatientWithGuardian(@RequestBody PatientGuardianRequest request){
         return patientService.createPatientWithGuardian(request);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePatient(@PathVariable String id) {
+        try{
+            patientService.deletePatient(id);
+            return ResponseEntity.noContent().build();
+        }catch(PatientNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 }
