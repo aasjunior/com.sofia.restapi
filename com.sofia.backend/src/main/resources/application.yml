@@ -7,7 +7,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost/test
+      uri: mongodb://localhost/sofia_db
 
 api:
   security:
