@@ -9,7 +9,7 @@
 ### Descrição do projeto 💜
 
 <p align="justify">
-A Sofia API é uma API RESTful desenvolvida com Spring Boot e Java no VS Code. Ela foi projetada para ser utilizada pelo Sofia Mobile para realização do CRUD com MySQL.
+A Sofia API é uma API RESTful desenvolvida com Spring Boot e Java. Ela foi projetada para ser utilizada pelo Sofia Mobile para realização do CRUD com MongoDB.
 </p>
 
 Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista aqui](https://youtu.be/ArjSy3HSWuY) 💜
@@ -17,9 +17,9 @@ Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista
 ## Pré-Requisitos 💜
 
 * JDK (Java Development Kit)
-* MySQL
+* MongoDB
 * Git
-* VS Code
+* Alguma IDE de sua preferência
 
 ## Configuração do Projeto 💜
 
@@ -28,19 +28,17 @@ Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista
 git clone https://github.com/aasjunior/com.sofia.restapi.git
 ```
 
-2. Abra o projeto no VS Code e adicione as seguintes extensões:
-     * `Extension Pack for Java`
-     * `Spring Boot Extension Pack`
-     * `Thunder Client` ou outro cliente REST API para testar as requisições HTTP.
+2. Abra o projeto na sua IDE preferida (como IntelliJ, Eclipse, NetBeans, etc.) e instale os plugins ou extensões necessários para o desenvolvimento em Java e Spring Boot. No caso do IntelliJ, você pode querer instalar o plugin Spring Assistant.
        
 
-3. Certifique-se de que o JDK está instalado e configurado corretamente.
+3. Se a sua IDE tiver um cliente REST API integrado (como o HTTP Client no IntelliJ), você pode usá-lo para testar as requisições HTTP. Caso contrário, você pode usar um cliente REST API externo, como Postman ou Insomnia.
    
 
-4. Certifique-se de que o MySQL está instalado e funcionando corretamente.
+4. Certifique-se de que o JDK está instalado e configurado corretamente na sua IDE. No IntelliJ, você pode verificar isso em File > Project Structure > Project Settings > Project > Project SDK.
    
+5. Certifique-se de que o MongoDB está instalado e funcionando corretamente. Você pode usar o MongoDB Compass para visualizar e interagir com seus dados no MongoDB.
 
-5. Inicie a aplicação. A API estará rodando em `http://localhost:8080`
+6. Inicie a aplicação. A API estará rodando em `http://localhost:8081`
 
 ## Endpoints 💜
 
@@ -48,19 +46,20 @@ A API possui os seguintes endpoints:
 
 | Type          | Path            | Obs.                                      |
 | ------------- |-----------------|:-----------------------------------------:|
-| GET           | /pacientes      | Retorna uma lista de todos os pacientes.  |
-| POST          | /pacientes      | Insere um novo paciente.                  |
-| GET           | /pacientes/{id} | Retorna um paciente específico pelo ID.   |
-| PATCH         | /pacientes/{id} | Atualiza um paciente pelo ID.             |
-| DELETE        | /pacientes/{id} | Remove um paciente pelo ID.               |
+| GET           | /patients       | Retorna uma lista de todos os pacientes.  |
+| POST          | /patients       | Insere um novo paciente.                  |
+| GET           | /patients/{id}  | Retorna um paciente específico pelo ID.   |
+| DELETE        | /patients/{id}  | Remove um paciente pelo ID.               |
 
 
 ## Tecnologias 💜
 <p align="center">
    <img src="https://github.com/aasjunior/com.sofia.mobile/assets/85968113/adc364c7-8401-4326-ad56-3807673b85f2" width="600px" alt="Android"/>
-   <div align="center"><img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white"/>
-   <img src="https://img.shields.io/badge/Spring_Boot-2B9348?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
-   <img src="https://img.shields.io/badge/MySQL-purple?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/></div>
+   <div align="center">
+    <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Spring_Boot-2B9348?style=for-the-badge&logo=spring-boot&logoColor=white" alt="Spring Boot"/>
+    <img src="https://img.shields.io/badge/MongoDB-green?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"/>
+  </div>
 </p>
 
 ## Nosso Time AJA 💜
