@@ -7,7 +7,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost/sofia_db
+      uri: mongodb+srv://aasjunior:n1FZBGbgKDLDWpjn@sofia-cluster0.uminjta.mongodb.net/sofia_db?retryWrites=true&w=majority&appName=sofia-cluster0
 
 api:
   security:
