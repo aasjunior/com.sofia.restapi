@@ -3,6 +3,7 @@ package com.sofia.backend.domain.controller;
 import com.sofia.backend.config.exceptions.user.UserNotFoundException;
 import com.sofia.backend.domain.model.login.LoginRequest;
 import com.sofia.backend.domain.model.login.LoginResponse;
+import com.sofia.backend.domain.model.login.RefreshRequest;
 import com.sofia.backend.domain.model.user.User;
 import com.sofia.backend.domain.model.user.UserRequest;
 import com.sofia.backend.domain.model.user.UserResponse;
@@ -46,6 +47,17 @@ public class AuthenticationController {
             return new  ResponseEntity("An error occurred: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refresh(@RequestBody RefreshRequest request) {
+        try {
+            LoginResponse loginResponse = authenticationService.refresh(request);
+            return ResponseEntity.ok(loginResponse);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){

@@ -13,3 +13,11 @@ api:
   security:
     token:
       secret: ${JWT_SECRET:default-secret}
+
+consumer:
+  api-flask:
+    respostas:
+      url: http://localhost:5000/respostas
+
+    resultado:
+      url: http://localhost:5000/resultado

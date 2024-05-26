@@ -51,4 +51,26 @@ public class TokenService {
                 .plusHours(2)
                 .toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public String generateRefreshToken(User user){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            String refreshToken = JWT.create()
+                    .withIssuer("auth-api")
+                    .withSubject(user.getUsername())
+                    .withExpiresAt(generateRefreshExpirationDate())
+                    .sign(algorithm);
+
+            return refreshToken;
+        }catch(JWTCreationException e){
+            throw new RuntimeException("Error while generating refresh token", e);
+        }
+    }
+
+    private Instant generateRefreshExpirationDate(){
+        return LocalDateTime
+                .now()
+                .plusDays(7)
+                .toInstant(ZoneOffset.of("-03:00"));
+    }
 }
