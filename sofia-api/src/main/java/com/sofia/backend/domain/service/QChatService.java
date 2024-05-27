@@ -32,8 +32,8 @@ public class QChatService {
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 QChatResponse response = (QChatResponse) responseEntity.getBody();
                 QChat qChat = QChat.fromRequest(request, response);
-                QChat saved = qchatRepository.save(qChat);
-                return new ResponseEntity<>(saved, HttpStatus.CREATED);
+                qchatRepository.save(qChat);
+                return new ResponseEntity<>(response, HttpStatus.CREATED);
             }else{
                 throw new Exception("Error generating response: " + responseEntity.getBody());
             }
