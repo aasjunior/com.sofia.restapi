@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
 @Data
@@ -49,4 +52,13 @@ public class Patient {
                 LocalDateTime.now()
         );
     }
+
+    public Integer getAgeMonths(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birthDateLocal = LocalDate.parse(this.birthDate, formatter);
+        LocalDate now = LocalDate.now();
+        Period period = Period.between(birthDateLocal, now);
+        return period.getYears() * 12 + period.getMonths();
+    }
+
 }

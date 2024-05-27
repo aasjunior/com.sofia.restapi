@@ -17,7 +17,7 @@ api:
 consumer:
   api-flask:
     respostas:
-      url: http://localhost:5000/respostas
+      url: http://127.0.0.1:5000/respostas
 
     resultado:
-      url: http://localhost:5000/resultado
+      url: http://127.0.0.1:5000/resultado

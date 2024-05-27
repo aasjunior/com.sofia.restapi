@@ -19,13 +19,15 @@ public class QChat {
     private String patientId;
     private Map<String, Boolean> questions;
     private LocalDateTime registerDate;
+    private QChatResponse responses;
 
-    public static QChat fromRequest(QChatRequest request){
+    public static QChat fromRequest(QChatRequest request, QChatResponse responses){
         return new QChat(
                 null,
                 request.patientId(),
                 request.questions(),
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                responses
         );
     }
 }
