@@ -73,4 +73,18 @@ public class TokenService {
                 .plusDays(7)
                 .toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public boolean isTokenValid(String token){
+        try{
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWT.require(algorithm)
+                    .withIssuer("auth-api")
+                    .build()
+                    .verify(token);
+            return true;
+        }catch(JWTVerificationException e){
+            return false;
+        }
+    }
+
 }

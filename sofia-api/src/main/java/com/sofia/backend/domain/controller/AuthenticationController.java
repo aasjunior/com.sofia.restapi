@@ -74,4 +74,15 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("/checkTokenValidity")
+    public ResponseEntity<Boolean> checkTokenValidity(@RequestBody RefreshRequest request) {
+        try {
+            boolean isValid = authenticationService.checkTokenValidity(request);
+            return ResponseEntity.ok(isValid);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

@@ -62,4 +62,10 @@ public class AuthenticationService {
         user = userRepository.save(user);
         return Converter.toResponse(user);
     }
+
+    public boolean checkTokenValidity(RefreshRequest request) {
+        String token = request.token();
+        return tokenService.isTokenValid(token);
+    }
+
 }
