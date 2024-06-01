@@ -53,6 +53,18 @@ public class Patient {
         );
     }
 
+    public void updateFromRequest(PatientRequest request){
+        this.firstName = request.firstName();
+        this.lastName = request.lastName();
+        this.birthDate = request.birthDate();
+        this.gender = request.gender();
+        this.ethnicity = request.ethnicity();
+        this.familyCases = request.familyCases();
+        this.pregnancyComplications = request.pregnancyComplication();
+        this.premature = request.premature();
+    }
+
+
     public Integer getAgeMonths(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate birthDateLocal = LocalDate.parse(this.birthDate, formatter);

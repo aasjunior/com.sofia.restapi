@@ -1,4 +1,4 @@
-package com.sofia.backend.domain.model.qchat;
+package com.sofia.backend.domain.model.checklist.qchat;
 
 import java.util.Map;
 

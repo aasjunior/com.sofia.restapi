@@ -1,4 +1,4 @@
-package com.sofia.backend.domain.model.qchat;
+package com.sofia.backend.domain.model.checklist.qchat;
 
 public record QChatResponse(
         Double accuracy,

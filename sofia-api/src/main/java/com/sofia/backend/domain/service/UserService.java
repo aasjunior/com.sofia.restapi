@@ -30,8 +30,7 @@ public class UserService {
     }
 
     public User findByUsernameSecret(String username){
-        User user = (User) userRepository.findByUsername(username);
-        return user;
+        return (User) userRepository.findByUsername(username);
     }
 
     public void delete(String userId){

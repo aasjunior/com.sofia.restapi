@@ -91,6 +91,59 @@ public class PatientService {
         }
     }
 
+    public ResponseEntity<Patient> updatePatientWithGuardian(String id, PatientGuardianRequest request){
+        try{
+            Optional<Patient> optionalPatient = patientRepository.findById(id);
+            if(optionalPatient.isPresent()){
+                Patient patient = optionalPatient.get();
+                patient.updateFromRequest(request.patientRequest());
+
+                ResponseEntity<Guardian> response = guardianService.updateGuardian(
+                        patient.getGuardians().values().stream().findFirst().orElse(null).getId(),
+                        request.guardianRequest()
+                );
+
+                if(response.getStatusCode() == HttpStatus.OK){
+                    Guardian guardian = response.getBody();
+
+                    PatientGuardian patientGuardian = new PatientGuardian(
+                            patient.getId(),
+                            guardian.getId(),
+                            request.kinship()
+                    );
+                    guardian.addPatient(patientGuardian);
+                    patientRepository.save(patient);
+                }else{
+                    return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                }
+
+                return new ResponseEntity<>(patient, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity<Patient> updatePatient(String id, PatientRequest request){
+        try{
+            Optional<Patient> patientData = patientRepository.findById(id);
+            if(patientData.isPresent()){
+                Patient patient = patientData.get();
+                // Atualize os campos do patient com os dados do request
+                // ...
+                Patient updatedPatient = patientRepository.save(patient);
+                return new ResponseEntity<>(updatedPatient, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     @Transactional
     public void deletePatient(String patientId){
         Optional<Patient> patientData = patientRepository.findById(patientId);

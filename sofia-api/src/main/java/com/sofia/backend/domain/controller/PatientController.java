@@ -47,6 +47,16 @@ public class PatientController {
         return patientService.createPatientWithGuardian(request);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Patient> updatePatient(@PathVariable String id, @RequestBody PatientRequest request){
+        return patientService.updatePatient(id, request);
+    }
+
+    @PutMapping("/patient-with-guardian/{id}")
+    public ResponseEntity<Patient> updatePatientWithGuardian(@PathVariable String id, @RequestBody PatientGuardianRequest request){
+        return patientService.updatePatientWithGuardian(id, request);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable String id) {
         try{

@@ -2,12 +2,16 @@ package com.sofia.backend.domain.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sofia.backend.config.exceptions.checklist.TestNotFoundException;
 import com.sofia.backend.config.exceptions.patient.PatientNotFoundException;
+import com.sofia.backend.domain.model.checklist.qchat.TestResponse;
+import com.sofia.backend.domain.model.common.enums.Checklist;
+import com.sofia.backend.domain.model.common.enums.ChecklistType;
 import com.sofia.backend.domain.model.common.enums.Gender;
 import com.sofia.backend.domain.model.patient.Patient;
-import com.sofia.backend.domain.model.qchat.QChat;
-import com.sofia.backend.domain.model.qchat.QChatRequest;
-import com.sofia.backend.domain.model.qchat.QChatResponse;
+import com.sofia.backend.domain.model.checklist.qchat.QChat;
+import com.sofia.backend.domain.model.checklist.qchat.QChatRequest;
+import com.sofia.backend.domain.model.checklist.qchat.QChatResponse;
 import com.sofia.backend.domain.repository.PatientRepository;
 import com.sofia.backend.domain.repository.QChatRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +36,13 @@ public class QChatService {
             if(responseEntity.getStatusCode() == HttpStatus.OK){
                 QChatResponse response = (QChatResponse) responseEntity.getBody();
                 QChat qChat = QChat.fromRequest(request, response);
-                qchatRepository.save(qChat);
-                return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+                Optional<QChat> existQChat = qchatRepository.findByPatientId(request.patientId());
+                existQChat.ifPresent(q -> qChat.setId(q.getId()));
+                QChat savedQChat = qchatRepository.save(qChat);
+
+                TestResponse testResponse = createTestResponse(savedQChat);
+                return new ResponseEntity<>(testResponse, HttpStatus.CREATED);
             }else{
                 throw new Exception("Error generating response: " + responseEntity.getBody());
             }
@@ -73,6 +82,16 @@ public class QChatService {
         return new QChatResponse(0.98, prediction);
     }
 
+    private TestResponse createTestResponse(QChat qChat){
+        return new TestResponse(
+                qChat.getId(),
+                Checklist.QChat,
+                ChecklistType.SCREENING,
+                qChat.getRegisterDate(),
+                qChat.getResponses().result()
+        );
+    }
+
     private String generateResponse(Patient patient, Map<String, Boolean> questions){
         String sex = patient.getGender() == Gender.Female ? "f" : "m";
         String familyCases = patient.getFamilyCases() ? "yes" : "no";
@@ -103,5 +122,25 @@ public class QChatService {
                 }
                                 
                 """, answers, patient.getAgeMonths(), sex, premature, familyCases);
+    }
+
+    public TestResponse getQChat(String patientId){
+        Optional<QChat> qchatData = qchatRepository.findByPatientId(patientId);
+        if(qchatData.isPresent()) {
+            QChat qchat = qchatData.get();
+
+            return createTestResponse(qchat);
+        }else{
+            throw new TestNotFoundException("Test not found for patientId: " + patientId);
+        }
+    }
+
+    public QChat getQChatResponses(String testId){
+        Optional<QChat> qchatData = qchatRepository.findById(testId);
+        if(qchatData.isPresent()) {
+            return qchatData.get();
+        }else{
+            throw new TestNotFoundException("Test not found for testId: " + testId);
+        }
     }
 }

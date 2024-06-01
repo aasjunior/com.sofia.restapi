@@ -2,6 +2,7 @@ package com.sofia.backend.domain.service;
 
 import com.sofia.backend.config.exceptions.guardians.GuardianNotFoundException;
 import com.sofia.backend.domain.model.guardian.Guardian;
+import com.sofia.backend.domain.model.guardian.GuardianRequest;
 import com.sofia.backend.domain.model.patient.Patient;
 import com.sofia.backend.domain.model.patientguardian.PatientGuardian;
 import com.sofia.backend.domain.repository.GuardianRepository;
@@ -49,6 +50,23 @@ public class GuardianService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public ResponseEntity<Guardian> updateGuardian(String id, GuardianRequest request){
+        try{
+            Optional<Guardian> optionalGuardian = guardianRepository.findById(id);
+            if(optionalGuardian.isPresent()){
+                Guardian guardian = optionalGuardian.get();
+                guardian.updateFromRequest(request);
+                Guardian updatedGuardian = guardianRepository.save(guardian);
+                return new ResponseEntity<>(updatedGuardian, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @Transactional
     public void deleteGuardian(String guardianId){

@@ -32,7 +32,8 @@ public class AuthenticationService {
         var accessToken = tokenService.generateToken((User) auth.getPrincipal());
         var refreshToken = tokenService.generateRefreshToken((User) auth.getPrincipal());
         if(accessToken != null && refreshToken != null){
-            return new LoginResponse(accessToken, refreshToken);
+            User user = (User) userRepository.findByUsername(request.username());
+            return new LoginResponse(accessToken, refreshToken, user.getId());
         }else{
             throw new RuntimeException("Erro durante a autenticação do usuário");
         }
@@ -45,7 +46,7 @@ public class AuthenticationService {
         if(user != null){
             var newAccessToken = tokenService.generateToken((User) user);
             var newRefreshToken = tokenService.generateRefreshToken((User) user);
-            return new LoginResponse(newAccessToken, newRefreshToken);
+            return new LoginResponse(newAccessToken, newRefreshToken, ((User) user).getId());
         }else{
             throw new RuntimeException("Erro durante a atualização do token");
         }
