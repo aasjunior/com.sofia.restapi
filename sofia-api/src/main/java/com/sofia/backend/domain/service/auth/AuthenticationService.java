@@ -25,14 +25,14 @@ public class AuthenticationService {
 
     public LoginResponse login(LoginRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(
-                request.username(),
+                request.email(),
                 request.password()
         );
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var accessToken = tokenService.generateToken((User) auth.getPrincipal());
         var refreshToken = tokenService.generateRefreshToken((User) auth.getPrincipal());
         if(accessToken != null && refreshToken != null){
-            User user = (User) userRepository.findByUsername(request.username());
+            User user = (User) userRepository.findByEmail(request.email());
             return new LoginResponse(accessToken, refreshToken, user.getId());
         }else{
             throw new RuntimeException("Erro durante a autenticação do usuário");
