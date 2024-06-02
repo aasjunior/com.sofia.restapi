@@ -7,17 +7,17 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://aasjunior:n1FZBGbgKDLDWpjn@sofia-cluster0.uminjta.mongodb.net/sofia_db?retryWrites=true&w=majority&appName=sofia-cluster0
+      uri: ${DATABASE_URL}
 
 api:
   security:
     token:
-      secret: ${JWT_SECRET:default-secret}
+      secret: ${JWT_SECRET}
 
 consumer:
   api-flask:
     respostas:
-      url: http://127.0.0.1:5000/respostas
+      url: ${APIFLASK_RESPONSES_URL}
 
     resultado:
-      url: http://127.0.0.1:5000/resultado
+      url: ${APIFLASK_RESULT_URL}
