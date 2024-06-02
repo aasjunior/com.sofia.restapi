@@ -51,23 +51,23 @@ git clone https://github.com/aasjunior/com.sofia.restapi.git
 
 A API possui os seguintes endpoints:
 
-| Type   | Path                       | Authorization           |                     Obs.                     |
-|--------|----------------------------|-------------------------|:--------------------------------------------:|
-| POST   | /auth/login                | null                    |       Realiza autenticação do usúario.       |
-| POST   | /auth/register             | null                    |          Registra um novo usuário.           |
-| POST   | /auth/refresh              | Bearear token           | Atueliza o token de autenticação do usuário. |
-| GET    | /patients                  | Bearear token           |   Retorna uma lista de todos os pacientes.   |
-| POST   | /patients-with-guardian    | Bearear token           |    Insere um novo paciente e responsável.    |
-| GET    | /patients/{id}             | Bearer token            |   Retorna um paciente específico pelo ID.    |
-| DELETE | /patients/{id}             | Bearer token<br/>Admin. |         Remove um paciente pelo ID.          |
-| POST   | /checklist/qchat/submit    | Bearer token            | Submete o questionário Q-Chat 10 preenchido. |
-| GET    | /checklist/qchat/patientId | Bearer token            |  Retorna o resultado do teste do paciente.   |
+| Type   | Path                       | Authorization         |                     Obs.                     |
+|--------|----------------------------|-----------------------|:--------------------------------------------:|
+| POST   | /auth/login                | null                  |       Realiza autenticação do usúario.       |
+| POST   | /auth/register             | null                  |          Registra um novo usuário.           |
+| POST   | /auth/refresh              | Bearear token         | Atueliza o token de autenticação do usuário. |
+| GET    | /patients                  | Bearear token         |   Retorna uma lista de todos os pacientes.   |
+| POST   | /patients-with-guardian    | Bearear token         |    Insere um novo paciente e responsável.    |
+| GET    | /patients/{id}             | Bearer token          |   Retorna um paciente específico pelo ID.    |
+| DELETE | /patients/{id}             | Bearer token / Admin. |         Remove um paciente pelo ID.          |
+| POST   | /checklist/qchat/submit    | Bearer token          | Submete o questionário Q-Chat 10 preenchido. |
+| GET    | /checklist/qchat/patientId | Bearer token          |  Retorna o resultado do teste do paciente.   |
 
 ### Login
 - **URI**: `/auth/login`
 - **Método**: `POST`
 - **Request body**: `application/JSON`
-- **Code**: `200 Ok`
+- **Status**: `200 Ok`
 - **Entrada**:
 ```json
 {
@@ -88,7 +88,7 @@ A API possui os seguintes endpoints:
 - **URI**: `/auth/register`
 - **Método**: `POST`
 - **Request body**: `application/JSON`
-- **Code**: `200 Ok`
+- **Status**: `200 Ok`
 - **Entrada**:
 ```json
 {
@@ -118,7 +118,7 @@ A API possui os seguintes endpoints:
 - **URI**: `/auth/refresh`
 - **Método**: `POST`
 - **Request body**: `application/JSON`
-- **Code**: `200 Ok`
+- **Status**: `200 Ok`
 - **Entrada**:
 ```json
 {
@@ -140,7 +140,7 @@ A API possui os seguintes endpoints:
 - **Método**: `POST`
 - **Request body**: `application/JSON`
 - **Headers**: <code><b>Authorization:</b> Bearer token</code>
-- **Code**: `200 Ok`
+- **Status**: `201 Created`
 - **Entrada**:
 ```json
 {
@@ -222,7 +222,7 @@ A API possui os seguintes endpoints:
 - **Método**: `POST`
 - **Request body**: `application/JSON`
 - **Headers**: <code><b>Authorization:</b> Bearer token</code>
-- **Code**: `200 Ok`
+- **Status**: `200 Ok`
 - **Entrada**:
 ```json
 {
@@ -250,7 +250,7 @@ A API possui os seguintes endpoints:
 - **URI**: `/checklist/qchat/{patientId}`
 - **Método**: `GET`
 - **Headers**: <code><b>Authorization:</b> Bearer token</code>
-- **Code**: `200 Ok`
+- **Status**: `200 Ok`
 - **Entrada**:
 ```json
 patientId: String
@@ -265,6 +265,12 @@ patientId: String
   "registerDateTime": "2024-06-02T00:48:57.304Z",
   "result": true
 }
+```
+
+## Deploy 💜
+Está aplicação possui uma versão disponível pelo endereço abaixo. Porém para utilização da [aplicação móvel](https://github.com/aasjunior/com.sofia.mobile.git) ainda se faz necessário a utilização localmente em conjunto com a [api-flask](https://github.com/mandis-ncs/api-flask.git) (Rede Neural).
+```
+https://sofia-api-hsrn.onrender.com/swagger-ui/index.html
 ```
 
 ## Tecnologias 💜
