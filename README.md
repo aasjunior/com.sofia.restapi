@@ -51,6 +51,24 @@ A API possui os seguintes endpoints:
 | GET           | /patients/{id}  | Retorna um paciente específico pelo ID.   |
 | DELETE        | /patients/{id}  | Remove um paciente pelo ID.               |
 
+**Login**
+- **URI**: `/auth/login`
+- **Método**: `POST`
+- **Entrada**:
+```json
+{
+    "email": "admin@email.com",
+    "password": "admin"
+}
+```
+- **Saída**:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluQGVtYWlsLmNvbSIsImV4cCI6MTcxNzI5MzMzNH0.64SmeaXnCzHoZ2og58U9-L5KWWaTM1kH6WhB1YPDNLA",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluQGVtYWlsLmNvbSIsImV4cCI6MTcxNzg5MDkzNH0.HhmkCijF3tORNG2Ir-J9f4v-5-nsA0eJ7HpDpcPPGCg",
+  "userId": "664be20a8be5ae0784bb9c70"
+}
+```
 
 ## Tecnologias 💜
 <p align="center">
