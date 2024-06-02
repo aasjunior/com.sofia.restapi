@@ -37,4 +37,12 @@ public class Guardian {
                 new HashMap<>()
         );
     }
+
+    public void updateFromRequest(GuardianRequest request){
+        this.firstName = request.firstName();
+        this.lastName = request.lastName();
+        this.phone = request.phone();
+        this.email = request.email();
+    }
+
 }

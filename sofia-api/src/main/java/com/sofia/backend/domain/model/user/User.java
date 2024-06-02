@@ -21,6 +21,8 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     private String id;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;
@@ -30,6 +32,8 @@ public class User implements UserDetails {
     public static User fromRequest(UserRequest request, String encryptedPassword){
         return new User(
                 null,
+                request.firstName(),
+                request.lastName(),
                 request.username(),
                 request.email(),
                 encryptedPassword,

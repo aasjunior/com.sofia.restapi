@@ -15,8 +15,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class HealthProfessional {
     @Id
     private String id;
-    private String firstName;
-    private String lastName;
     private String registrationNumber;
     private ProfessionalRegistrationType registrationType;
     private String specialty;
@@ -25,8 +23,6 @@ public class HealthProfessional {
     public static HealthProfessional fromRequest(HealthProfessionalRequest request, User user){
         return new HealthProfessional(
                 null,
-                request.firstName(),
-                request.lastName(),
                 request.registrationNumber(),
                 request.registrationType(),
                 request.specialty(),

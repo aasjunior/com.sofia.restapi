@@ -3,6 +3,7 @@ package com.sofia.backend.domain.controller;
 import com.sofia.backend.config.exceptions.user.UserNotFoundException;
 import com.sofia.backend.domain.model.login.LoginRequest;
 import com.sofia.backend.domain.model.login.LoginResponse;
+import com.sofia.backend.domain.model.login.RefreshRequest;
 import com.sofia.backend.domain.model.user.User;
 import com.sofia.backend.domain.model.user.UserRequest;
 import com.sofia.backend.domain.model.user.UserResponse;
@@ -47,6 +48,17 @@ public class AuthenticationController {
         }
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<LoginResponse> refresh(@RequestBody RefreshRequest request) {
+        try {
+            LoginResponse loginResponse = authenticationService.refresh(request);
+            return ResponseEntity.ok(loginResponse);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
     @GetMapping("/user/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username){
         try {
@@ -62,4 +74,15 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("/checkTokenValidity")
+    public ResponseEntity<Boolean> checkTokenValidity(@RequestBody RefreshRequest request) {
+        try {
+            boolean isValid = authenticationService.checkTokenValidity(request);
+            return ResponseEntity.ok(isValid);
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

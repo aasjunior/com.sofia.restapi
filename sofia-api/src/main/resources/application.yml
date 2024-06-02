@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
@@ -7,9 +7,17 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost/sofia_db
+      uri: mongodb://localhost:27017/sofia_db
 
 api:
   security:
     token:
-      secret: ${JWT_SECRET:default-secret}
+      secret: ${JWT_SECRET:f70e3d9c24499cbce45195bc6b9ce964a65e30e882ef2654fbbd4fb8ebb1f4d6960415d6d69543b1aac99a23757af8710d1bf639db5bc7214a235ef1c1ff1bc4d162d35ad874f21a2cda753946b7cd0f1e7d219542a36be1644fc10be42bdcf42ed2c3f986bb845f3c2bed5056c1d44cc53437361dece66b6434dd098e6c147af5b5edef5293281032173b62ab67d09feaa608f1b7c6114e2d40701793466a5790efcfb45a7feef836903e1755e7c691b1518ea4c92e56347ce68e4c949d059146d9ebf677d7c5bd57626fb2051c715a28a754b9845dcba0da6b92e56a5a16860945cdddd964a218bdde095349571f9ac7572ca211500d13a3c91edffad0da1f}
+
+consumer:
+  api-flask:
+    respostas:
+      url: http://127.0.0.1:5000/respostas
+
+    resultado:
+      url: http://127.0.0.1:5000/resultado
