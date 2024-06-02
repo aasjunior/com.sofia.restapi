@@ -9,7 +9,7 @@
 ### Descrição do projeto 💜
 
 <p align="justify">
-A Sofia API é uma API RESTful desenvolvida com Spring Boot e Java. Ela foi projetada para ser utilizada pelo Sofia Mobile para realização do CRUD com MongoDB.
+A Sofia API é uma API RESTful desenvolvida com Spring Boot e Java. Ela foi projetada para ser utilizada pelo <a href="https://github.com/aasjunior/com.sofia.mobile.git">Sofia Mobile</a> para realização do CRUD com MongoDB.
 </p>
 
 Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista aqui](https://youtu.be/ArjSy3HSWuY) 💜
