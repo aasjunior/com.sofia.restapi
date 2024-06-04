@@ -252,7 +252,7 @@ A API possui os seguintes endpoints:
 - **Headers**: <code><b>Authorization:</b> Bearer token</code>
 - **Status**: `200 Ok`
 - **Entrada**:
-```json
+```
 patientId: String
 ```
 
