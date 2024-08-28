@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8000
 
 spring:
   application:
@@ -7,7 +7,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://localhost:27017/sofia_db
+      uri: ${MONGO_ATLAS_URL}
 
 api:
   security:
