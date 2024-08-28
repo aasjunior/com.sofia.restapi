@@ -10,6 +10,13 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=sofia_db
 
+  build:
+    image: maven:3.8.4-openjdk-17
+    volumes:
+      - ./target:/app/target
+    working_dir: /app
+    command: ["mvn", "clean", "install"]
+
   sofia-api:
     image: openjdk:17-jdk-alpine
     environment:
@@ -22,7 +29,7 @@ services:
     command: ["java", "-jar", "/app.jar"]
     depends_on:
       - mongodb
+      - build
 
 volumes:
   mongodb-data:
-
