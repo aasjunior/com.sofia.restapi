@@ -18,10 +18,10 @@ public class NeuralNetworkConsumer {
         return neuralNetworkService.postData(jsonData);
     }
 
-    @GetMapping("/resultado")
-    public ResponseEntity<String> getData(){
+    @GetMapping("/resultado/{id}")
+    public ResponseEntity<String> getData(@PathVariable int id){
         try{
-            return neuralNetworkService.getData();
+            return neuralNetworkService.getData(id);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

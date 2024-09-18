@@ -14,6 +14,7 @@ import com.sofia.backend.domain.model.checklist.qchat.QChatRequest;
 import com.sofia.backend.domain.model.checklist.qchat.QChatResponse;
 import com.sofia.backend.domain.repository.PatientRepository;
 import com.sofia.backend.domain.repository.QChatRepository;
+import io.swagger.v3.core.util.Json;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,9 +57,12 @@ public class QChatService {
             Optional<Patient> patientData = patientRepository.findById(patientId);
             if(patientData.isPresent()){
                 String response = generateResponse(patientData.get(), questions);
-                neuralNetworkService.postData(response);
+                ResponseEntity<String> postResponse = neuralNetworkService.postData(response);
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode rootNode = mapper.readTree(postResponse.getBody());
+                int qchatId = rootNode.path("qchat_id").asInt();
 
-                ResponseEntity<String> dataResponse = neuralNetworkService.getData();
+                ResponseEntity<String> dataResponse = neuralNetworkService.getData(qchatId);
                 QChatResponse qchatResponse = createQChatResponse(dataResponse.getBody());
                 return new ResponseEntity<>(qchatResponse, HttpStatus.OK);
             }else{
@@ -105,22 +109,14 @@ public class QChatService {
 
         return String.format("""
                 {
-                  "responses": [
-                    {
-                      "Case_No": 1,
                       %s,
                       "Age_Mons": %d,
                       "Sex": "%s",
-                      "Ethnicity": "middle eastern",
+                      "Ethnicity": "black",
                       "Jaundice": "%s",
                       "Family_mem_with_ASD": "%s",
-                      "Who_completed_the_test": "family member",
                       "Class_ASD_Traits": ""
-                    }
-                                
-                  ]
                 }
-                                
                 """, answers, patient.getAgeMonths(), sex, premature, familyCases);
     }
 

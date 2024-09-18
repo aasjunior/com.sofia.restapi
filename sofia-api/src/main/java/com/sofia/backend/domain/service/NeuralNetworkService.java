@@ -19,7 +19,7 @@ public class NeuralNetworkService {
 
     public ResponseEntity<String> postData(String jsonData) {
         try{
-            String url = "http://127.0.0.1:5000/respostas";
+            String url = "http://127.0.0.1:8000/respostas";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity<>(jsonData, headers);
@@ -29,9 +29,9 @@ public class NeuralNetworkService {
         }
     }
 
-    public ResponseEntity<String> getData() throws DataUnavailableException {
+    public ResponseEntity<String> getData(int id) throws DataUnavailableException {
         try{
-            String url = "http://127.0.0.1:5000/resultado";
+            String url = "http://127.0.0.1:8000/resultado/" + id;
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
             if (response.getBody() == null) {
                 throw new DataUnavailableException("O corpo da resposta está vazio");
