@@ -12,7 +12,7 @@ Sofia é um Software Orientado por Inteligência Artificial para Auxílio ao Pr�
 A Sofia API é uma API RESTful desenvolvida com Spring Boot e Java. Ela foi projetada para ser utilizada pelo <a href="https://github.com/aasjunior/com.sofia.mobile.git">Sofia Mobile</a> para realização do CRUD com MongoDB.
 </p>
 
-Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista aqui](https://youtu.be/ArjSy3HSWuY) 💜
+Ficou interessado? Veja mais no nosso pitch de apresentação da SOFIA, [assista aqui](https://www.youtube.com/watch?v=wSeBx_eXvcY) 💜
 
 ## Pré-Requisitos 💜
 
