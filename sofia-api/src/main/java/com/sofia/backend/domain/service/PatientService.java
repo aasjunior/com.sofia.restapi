@@ -10,6 +10,7 @@ import com.sofia.backend.domain.model.patientguardian.PatientGuardianRequest;
 import com.sofia.backend.domain.repository.GuardianRepository;
 import com.sofia.backend.domain.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -173,5 +174,29 @@ public class PatientService {
             throw new InvalidPatientIdException("ID do paciente inválido.");
         }
         return true;
+    }
+
+    public Optional<Patient> findPatientByFirstName(String firstname){
+        List<Patient> patients = patientRepository.findAll(Sort.by("firstName"));
+        return binarySearchByFirstName(patients, firstname, 0, patients.size() - 1);
+    }
+
+    private Optional<Patient> binarySearchByFirstName(List<Patient> patients, String firstname, int low, int high){
+        if(low > high){
+            return Optional.empty();
+        }
+
+        int mid = (low + high) / 2;
+        Patient patient = patients.get(mid);
+
+        int comparison = firstname.compareTo(patient.getFirstName());
+
+        if(comparison == 0){
+            return Optional.of(patient);
+        }else if(comparison > 0){
+            return binarySearchByFirstName(patients, firstname, low, mid - 1);
+        }else {
+            return binarySearchByFirstName(patients, firstname, low, mid + 1);
+        }
     }
 }

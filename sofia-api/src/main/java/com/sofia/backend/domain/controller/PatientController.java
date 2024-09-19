@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +65,28 @@ public class PatientController {
             return ResponseEntity.noContent().build();
         }catch(PatientNotFoundException e){
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchPatientByFirstName(@RequestParam String firstName){
+        try{
+            if(firstName.isEmpty()){
+                throw new InvalidParameterException("First name cannot be null or empty");
+            }
+
+            Optional<Patient> patient = patientService.findPatientByFirstName(firstName);
+
+            if(patient.isPresent()){
+                return new ResponseEntity<>(patient.get(), HttpStatus.OK);
+            }else{
+                throw new PatientNotFoundException("Patient with firstname" + firstName + " not found.");
+            }
+
+        }catch(InvalidParameterException | PatientNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
