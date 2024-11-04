@@ -71,8 +71,8 @@ A API possui os seguintes endpoints:
 - **Entrada**:
 ```json
 {
-    "email": "admin@email.com",
-    "password": "admin"
+  "email": "admin@email.com",
+  "password": "admin"
 }
 ```
 - **Saída**:
@@ -92,25 +92,25 @@ A API possui os seguintes endpoints:
 - **Entrada**:
 ```json
 {
-    "firstName": "John",
-    "lastName": "Doe",
-    "username": "john.doe",
-    "email": "john.doe@email.com",
-    "password": "123",
-    "role": "USER"
+  "firstName": "John",
+  "lastName": "Doe",
+  "username": "john.doe",
+  "email": "john.doe@email.com",
+  "password": "123",
+  "role": "USER"
 }
 ```
 
 - **Saída**:
 ```json
 {
-    "id": "665bbbc64d3b496d45370802",
-    "firstName": "John",
-    "lastName": "John",
-    "username": "john.doe",
-    "email": "john.doe@email.com",
-    "role": "USER",
-    "registrationDate": "2024-06-01T21:24:38.7597449"
+  "id": "665bbbc64d3b496d45370802",
+  "firstName": "John",
+  "lastName": "John",
+  "username": "john.doe",
+  "email": "john.doe@email.com",
+  "role": "USER",
+  "registrationDate": "2024-06-01T21:24:38.7597449"
 }
 ```
 
