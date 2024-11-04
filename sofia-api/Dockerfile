@@ -1,10 +1,15 @@
-FROM openjdk:17-jdk-alpine
-LABEL authors="aasjunior"
+FROM openjdk:17-jdk-slim
 
-# Define variáveis de ambiente com base em variáveis já configuradas no sistema
-ENV MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
+ENV APP_DIR=/usr/app/
+ENV MONGO_ATLAS_URL=mongodb://mongodb:27017/sofia_db
 ENV JWT_SECRET=${JWT_SECRET}
 
-COPY target/com.sofia.backend-0.0.1-SNAPSHOT.jar /app.jar
+RUN mkdir -p $APP_DIR
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+WORKDIR $APP_DIR
+
+COPY target/com.sofia.backend-0.0.1-SNAPSHOT.jar $APP_DIR/app.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "/usr/app/app.jar"]
