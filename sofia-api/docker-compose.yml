@@ -1,7 +1,7 @@
-version: '3'
+version: '3.8'
 services:
   mongodb:
-    image: mongo:latest
+    image: mongo:4.4
     container_name: mongodb
     ports:
       - "27017:27017"
@@ -20,16 +20,33 @@ services:
   sofia-api:
     image: openjdk:17-jdk-alpine
     environment:
-      - MONGO_ATLAS_URL=mongodb://mongodb:27017/sofia_db
+      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
       - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "8080:8080"
+      - "8080"
     volumes:
       - ./target/com.sofia.backend-0.0.1-SNAPSHOT.jar:/app.jar
     command: ["java", "-jar", "/app.jar"]
     depends_on:
       - mongodb
       - build
+
+  sofia-fastapi:
+    image: aasjunior/sofia-fastapi:1.0
+    container_name: sofia-fastapi
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - sofia-fastapi
+      - sofia-api
 
 volumes:
   mongodb-data: {}
