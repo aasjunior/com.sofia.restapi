@@ -12,8 +12,6 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 
 ENV APP_DIR=/usr/app/
-ENV MONGO_ATLAS_URL=mongodb://mongodb:27017/sofia_db
-ENV JWT_SECRET=${JWT_SECRET}
 
 RUN mkdir -p $APP_DIR
 

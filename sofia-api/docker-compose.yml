@@ -10,43 +10,15 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=sofia_db
 
-  build:
-    image: maven:3.8.4-openjdk-17
-    volumes:
-      - ./target:/app/target
-    working_dir: /app
-    command: ["mvn", "clean", "install"]
-
-  sofia-api:
-    image: openjdk:17-jdk-alpine
+  app:
+    build: .
     environment:
-      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
-      - JWT_SECRET=${JWT_SECRET}
+      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL:-mongodb://mongodb:27017/sofia_db}
+      - JWT_SECRET=${JWT_SECRET:-default_jwt}
     ports:
-      - "8080"
-    volumes:
-      - ./target/com.sofia.backend-0.0.1-SNAPSHOT.jar:/app.jar
-    command: ["java", "-jar", "/app.jar"]
+      - "8080:8080"
     depends_on:
       - mongodb
-      - build
-
-  sofia-fastapi:
-    image: aasjunior/sofia-fastapi:1.0
-    container_name: sofia-fastapi
-    expose:
-      - "8000"
-
-  nginx:
-    image: nginx
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - sofia-fastapi
-      - sofia-api
 
 volumes:
-  mongodb-data: {}
+  mongodb-data:
