@@ -3,13 +3,16 @@ package com.sofia.backend.config.database;
 import com.sofia.backend.domain.model.common.enums.Ethnicity;
 import com.sofia.backend.domain.model.common.enums.Gender;
 import com.sofia.backend.domain.model.common.enums.Kinship;
+import com.sofia.backend.domain.model.common.enums.UserRole;
 import com.sofia.backend.domain.model.guardian.Guardian;
 import com.sofia.backend.domain.model.patient.Patient;
 import com.sofia.backend.domain.model.patientguardian.PatientGuardian;
+import com.sofia.backend.domain.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -21,11 +24,13 @@ import java.util.HashMap;
 public class DatabasePopulator implements CommandLineRunner {
 
     private final MongoTemplate mongoTemplate;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
         Patient patient = createPatient();
         Guardian guardian = createGuardian();
+        User user = createUser();
 
         Query query = new Query(
                 Criteria.where("email").is(guardian.getEmail())
@@ -46,7 +51,14 @@ public class DatabasePopulator implements CommandLineRunner {
 
             mongoTemplate.save(savedPatient);
             mongoTemplate.save(savedGuardian);
+        }
 
+        Query userQuery = new Query(
+                Criteria.where("email").is(user.getEmail())
+        );
+
+        if(!mongoTemplate.exists(userQuery, User.class)){
+            mongoTemplate.save(user);
         }
     }
 
@@ -74,6 +86,20 @@ public class DatabasePopulator implements CommandLineRunner {
                 "(12) 34567-8901",
                 "maria@email.com",
                 new HashMap<>()
+        );
+    }
+
+    private User createUser(){
+        return new User(
+                null,
+                "John",
+                "Doe",
+                "john.doe",
+                "john.doe@email.com",
+                passwordEncoder.encode("123"),
+                UserRole.USER,
+                LocalDateTime.now()
+
         );
     }
 }

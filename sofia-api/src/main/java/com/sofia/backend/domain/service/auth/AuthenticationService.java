@@ -10,6 +10,7 @@ import com.sofia.backend.domain.model.user.UserResponse;
 import com.sofia.backend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,17 +25,23 @@ public class AuthenticationService {
     private final TokenService tokenService;
 
     public LoginResponse login(LoginRequest request) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(
-                request.email(),
-                request.password()
-        );
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var accessToken = tokenService.generateToken((User) auth.getPrincipal());
-        var refreshToken = tokenService.generateRefreshToken((User) auth.getPrincipal());
-        if(accessToken != null && refreshToken != null){
-            User user = (User) userRepository.findByEmail(request.email());
-            return new LoginResponse(accessToken, refreshToken, user.getId());
-        }else{
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(
+                    request.email(),
+                    request.password()
+            );
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var accessToken = tokenService.generateToken((User) auth.getPrincipal());
+            var refreshToken = tokenService.generateRefreshToken((User) auth.getPrincipal());
+            if (accessToken != null && refreshToken != null) {
+                User user = (User) userRepository.findByEmail(request.email());
+                return new LoginResponse(accessToken, refreshToken, user.getId());
+            } else {
+                throw new RuntimeException("Erro durante a autenticação do usuário");
+            }
+        }catch(BadCredentialsException e){
+            throw new RuntimeException("Usuário ou senha incorretos");
+        }catch(Exception e){
             throw new RuntimeException("Erro durante a autenticação do usuário");
         }
     }
@@ -54,6 +61,10 @@ public class AuthenticationService {
 
 
     public UserResponse register(UserRequest request){
+        if (userRepository.findByEmail(request.email()) != null) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
         if (userRepository.findByUsername(request.username()) != null) {
             throw new IllegalArgumentException("Username already exists");
         }

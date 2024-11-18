@@ -1,5 +1,6 @@
 package com.sofia.backend.domain.controller;
 
+import com.sofia.backend.config.exceptions.ErrorResponse;
 import com.sofia.backend.config.exceptions.user.UserNotFoundException;
 import com.sofia.backend.domain.model.login.LoginRequest;
 import com.sofia.backend.domain.model.login.LoginResponse;
@@ -7,14 +8,12 @@ import com.sofia.backend.domain.model.login.RefreshRequest;
 import com.sofia.backend.domain.model.user.User;
 import com.sofia.backend.domain.model.user.UserRequest;
 import com.sofia.backend.domain.model.user.UserResponse;
-import com.sofia.backend.domain.repository.UserRepository;
 import com.sofia.backend.domain.service.UserService;
 import com.sofia.backend.domain.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final UserRepository userRepository;
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request){
@@ -37,16 +34,21 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest request) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserRequest request) {
         try {
             UserResponse user = authenticationService.register(request);
             return ResponseEntity.ok(user);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity("Username already exists", HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         } catch (Exception e) {
-            return new  ResponseEntity("An error occurred: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
         }
     }
+
 
     @PostMapping("/refresh")
     public ResponseEntity<LoginResponse> refresh(@RequestBody RefreshRequest request) {

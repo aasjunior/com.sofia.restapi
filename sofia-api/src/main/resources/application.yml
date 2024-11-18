@@ -7,12 +7,12 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO_ATLAS_URL:-mongodb://localhost:27017/sofia_db}
+      uri: ${MONGO_ATLAS_URL:mongodb://localhost:27017/sofia_db}
 
 api:
   security:
     token:
-      secret: ${JWT_SECRET:-default_jwt}
+      secret: ${JWT_SECRET:default_jwt}
 
 consumer:
   api-flask:
