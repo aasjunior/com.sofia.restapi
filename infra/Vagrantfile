@@ -1,0 +1,30 @@
+Vagrant.configure("2") do |config|
+    # Define o nome da VM
+    config.vm.define "sofia-server"
+  
+    # Box do Ubuntu 20.04
+    config.vm.box = "ubuntu/focal64"
+  
+    # Configurações de rede
+  
+    # # Porta para acessar sofia-api
+    # config.vm.network "forwarded_port", guest: 80, host: 8080
+    # # Porta para acessar sofia-restapi
+    # config.vm.network "forwarded_port", guest: 8000, host: 8081
+    # # Porta para acessar o MongoDB
+    # config.vm.network "forwarded_port", guest: 27017, host: 27017
+  
+    config.vm.provider "virtualbox" do |vb|
+      # Configuração de memória (em MB)
+      vb.memory = "4096" # 4 GB de RAM
+  
+      # Configuração de CPU
+      vb.cpus = 4 # 4 CPUs
+    end
+  
+    # Configuração para executar o script de provisionamento
+    config.vm.provision "shell", path: "provision.sh"
+  
+    # Sincroniza a pasta local com a VM
+    config.vm.synced_folder ".", "/vagrant"
+  end
