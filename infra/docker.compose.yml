@@ -1,0 +1,42 @@
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=sofia_db
+
+  sofia-api:
+    image: aasjunior/sofia-api:1.1
+    container_name: sofia-api
+    environment:
+      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "8080"
+    depends_on:
+      - mongodb
+
+  sofia-fastapi:
+    image: aasjunior/sofia-fastapi:1.0
+    container_name: sofia-fastapi
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - sofia-fastapi
+      - sofia-api
+
+volumes:
+  mongodb-data: {}
+
