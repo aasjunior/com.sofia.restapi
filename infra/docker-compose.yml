@@ -13,8 +13,8 @@ services:
     image: aasjunior/sofia-api:1.1
     container_name: sofia-api
     environment:
-      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
-      - JWT_SECRET=${JWT_SECRET}
+      - MONGO_ATLAS_URL=${MONGO_ATLAS_URL:-mongodb://mongodb:27017/sofia_db}
+      - JWT_SECRET=${JWT_SECRET:-default_jwt}
     ports:
       - "8080"
     depends_on:
