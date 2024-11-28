@@ -106,7 +106,7 @@ Esta documentação inclui:
 - Instalação do **Docker** e **Docker Compose**.
 - Execução do ambiente completo de back-end utilizando o arquivo `docker-compose.yml`, disponívem em [infra/docker-compose.yml](./infra/docker-compose.yml).
 
-⚠️ Importante: Certifique-se de configurar as variáveis de ambiente corretamente para conectar ao MongoDB Atlas.
+⚠️ Importante: Certifique-se de configurar as variáveis de ambiente corretamente para conectar ao MongoDB Atlas, ou tenha o MongoDB instalado localmente.
 
 ## Endpoints 💜
 
