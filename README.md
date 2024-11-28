@@ -6,6 +6,9 @@ Sofia é um Software Orientado por Inteligência Artificial para Auxílio ao Pr�
   <img src="https://github.com/aasjunior/com.sofia.mobile/assets/85968113/ce5ba98e-c63a-4fb7-a311-ced454084bc7" width="700" alt="ilustracao">
 </div>
 
+###### FETEPS 2024
+Este projeto participou da **15ª Feira Tecnológica do Centro Paula Souza** - <a href='https://feteps.cpscetec.com.br/docs/2024_feteps_publicacao.pdf' target='_blank'>FETEPS</a>.
+
 ### Descrição do projeto 💜
 
 <p align="justify">
@@ -56,7 +59,7 @@ git clone https://github.com/aasjunior/com.sofia.restapi.git
 
 ### Instalação via Docker 💜
 
-O projeto pode ser criado pelo arquivo via **Docker Compose**. Existem dois níveis de configuração disponíveis:
+O projeto pode ser criado via **Docker Compose**. Existem dois níveis de configuração disponíveis:
 
   - **Docker Compose Local**: Para rodar apenas a API **Spring Boot** localmente.
   - **Docker Compose Completo**: Para provisionar toda a infraestrutura do **SOFIA** (API + FastAPI + NGINX).
